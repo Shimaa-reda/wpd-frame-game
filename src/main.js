@@ -8,6 +8,7 @@ import Aura from '@primevue/themes/aura';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Dialog from 'primevue/dialog';
+import 'primeicons/primeicons.css';
 
 
 const app = createApp(App);
