@@ -1,91 +1,178 @@
 <template>
-  <div class="container nav mt-4">
-    <img src="@/assets/images/logo.png" alt="Logo" class="logo" style="width:174px;" />
+  <div class="container nav">
+    <img
+      src="@/assets/images/logo.png"
+      alt="Logo"
+      class="logo"
+      style="width: 174px"
+    />
   </div>
   <div class="center-container">
-    <div class="photo-container" @click="openFileInput">
-      <input type="file" accept="image/*" ref="fileInput" @change="handlePhoto" style="display: none;" capture="user">
+    <div class="photo-frame-container">
+      <div class="photo-container" @click="openFileInput">
+        <div class="content" >
+          <input
+            type="file"
+            accept="image/*"
+            ref="fileInput"
+            @change="handlePhoto"
+            style="display: none"
+            capture="user"
+          />
 
-      <!-- In case no image is uploaded -->
-      <div v-if="!imageUrl" class="icon-wrapper mb-5">
-        <img src="@/assets/images/camera.png" alt="">
-      </div>
-      <p v-if="!imageUrl">
-        <img src="@/assets/images/Capa 3.png" alt="" style="width:40px">
-        Tap here to take a photo
-      </p>
+          <!-- In case no image is uploaded -->
+          <div v-if="!imageUrl" class="icon-wrapper">
+            <img src="@/assets/images/camera.png" alt="camera icon" />
+          </div>
+          <p v-if="!imageUrl">
+            <img src="@/assets/images/Capa 3.png" alt="" style="width: 40px" />
+            Tap here to take a photo
+          </p>
 
-      <!-- In case an image is uploaded -->
-      <div v-else class="image-wrapper">
-        <img :src="imageUrl" class="uploaded-image" alt="Uploaded Image">
+          <!-- Display uploaded image -->
+          <div v-else class="image-wrapper">
+            <!-- Frame overlay -->
+            <img
+              v-if="selectedFrame"
+              :src="selectedFrame"
+              class="frame-overlay"
+              alt="Selected Frame"
+            />
+            <img :src="imageUrl" class="uploaded-image" alt="Uploaded Image" />
+          </div>
+          <!-- Button to retake the photo -->
+          <div v-if="imageUrl && !selectedFrame" class="retake-button-container">
+            <button class="retake-button" @click="resetPhoto">
+              <img src="@/assets/images/retake_camera.png" alt="Retake Icon"> Retake
+            </button>
+          </div>
+        </div>
       </div>
 
-      <!-- Button for retaking the photo -->
-      <div v-if="imageUrl" class="retake-button-container">
-        <button class="retake-button" @click="resetPhoto">
-          <img src="@/assets/images/retake_camera.png" alt="Retake Icon" > Retake
-        </button>
+      <!-- Frame selection -->
+      <div v-if="imageUrl" class="frame-selection">
+        <div class="frames">
+          <img
+            v-for="(frame, index) in frames"
+            :key="index"
+            :src="frame"
+            class="frame-thumbnail"
+            :class="{ 'selected-frame': selectedFrame === frame }"
+            @click="selectFrame(frame)"
+          />
+        </div>
       </div>
-    </div>
+     </div>
+     
   </div>
 
-  <div class="button-container" style="">
-    <button class="back-button" v-if="imageUrl" @click="resetPhoto">Back</button>
-    <button class="next-button" :disabled="!imageUrl" @click="goToNext">Next</button>
+  <div class="button-container">
+    <button class="back-button" v-if="imageUrl" @click="resetPhoto">
+      Back
+    </button>
+
+    <button
+      class="next-button"
+      :disabled="!imageUrl"
+      @click="goToNext"
+      v-if="!selectedFrame"
+    >
+      Next
+    </button>
+
+    <button
+      class="print-button"
+      v-if="selectedFrame"
+      @click="printImageWithFrame"
+    >
+      Print
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
+//using variables
 const imageUrl = ref(null);
 const fileInput = ref(null);
+const selectedFrame = ref(null);
 
+//frames
+import frame1 from "@/assets/images/frame1.png";
+import frame2 from "@/assets/images/frame2.png";
+import frame3 from "@/assets/images/frame3.png";
+import frame4 from "@/assets/images/frame4.png";
+import frame5 from "@/assets/images/frame5.png";
+import frame6 from "@/assets/images/frame6.png";
+
+// List of frames
+const frames = [frame1, frame2, frame3, frame4, frame5, frame6];
+
+// Function to open file input
 const openFileInput = () => {
   fileInput.value.click(); // Open file input dialog
 };
 
+// Function to handle uploaded photo
 const handlePhoto = (event) => {
   const file = event.target.files[0];
   if (file) {
-    // Create a URL for the uploaded image
     imageUrl.value = URL.createObjectURL(file);
-    console.log("Photo captured:", file);
   }
 };
 
+// Function to reset the photo and frame
 const resetPhoto = () => {
-  imageUrl.value = null; // Reset the image URL
+  imageUrl.value = null;
+  selectedFrame.value = null;
 };
 
+// Function to select a frame
+const selectFrame = (frame) => {
+  selectedFrame.value = frame;
+  console.log("Selected frame:", selectedFrame.value);
+};
+
+// Function to proceed to the next step
 const goToNext = () => {
   console.log("Next button clicked, proceed to the next step.");
+};
+
+// Function to print the image with frame
+const printImageWithFrame = () => {
+  window.print();
 };
 </script>
 
 <style>
 body {
-  background-image: url('@/assets/images/Rectangle.png');
-  background-position: center; 
-  background-repeat: no-repeat; 
-  background-size: cover; 
-  overflow-y: hidden;
-   
-  margin: 0; 
-  display: flex; 
-  flex-direction: column; 
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background-image: url("@/assets/images/Rectangle.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
 }
 
 .center-container {
   flex: 1;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
+.photo-frame-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
 .button-container {
-  position:relative;
+  position: relative;
   top: 80px;
   width: 100%;
   display: flex;
@@ -93,40 +180,40 @@ body {
   padding: 0 20px;
 }
 
-.back-button {
-  background-color: #7E3493;
+.back-button,
+.next-button,
+.print-button {
+  background-color: #7e3493;
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 30px; 
+  border-radius: 30px;
   cursor: pointer;
   width: 150px;
-  margin-bottom: 10px; 
 }
-
-.next-button {
-  background-color: #7E3493;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 30px; 
-  cursor: pointer;
-  width: 150px;
+.next-button,.print-button{
+  bottom: 20px !important;
+    position: absolute;
+    right: 20px;
+}
+.back-button{
+  bottom: 20px !important;
+    position: absolute;
+    left: 20px;
+}
+.next-button:disabled {
+  background-color: #808080;
+  cursor: not-allowed;
   position: absolute;
   right: 20px;
-  
 }
 
-.next-button:disabled {
-  background-color: #808080; 
-  cursor: not-allowed; 
-}
 .photo-container {
-  width: 540px;
-  height: 410px;
-  border: 2px solid #FFFFFF;
+  width: 676px; 
+  height: 500px;
+  border: 2px solid #ffffff;
   border-radius: 30px;
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,6 +222,7 @@ body {
   overflow: hidden;
   cursor: pointer;
   text-align: center;
+  padding: 20px !important;
 }
 
 .icon-wrapper {
@@ -148,41 +236,153 @@ body {
 
 .image-wrapper {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100%; 
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  position: relative;
 }
 
 .uploaded-image {
-  max-width: 90%; 
-  max-height: 70%; 
-  object-fit: contain; 
-  margin: 0; 
+  width: 100%;
+  height: auto;
+  /* max-height: 100%; */
+  object-fit: cover;
+}
+
+.frame-overlay {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  /* border-radius: 30px;  */
+}
+
+.frame-selection {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  right: 120px;
+  position: absolute;
+  padding: 20px;
+}
+
+.frames {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.frame-thumbnail {
+  width: 100px;
+  height: 100px;
+  background-color: #eaeaea;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.selected-frame {
+  border-color: #7e3493;
+}
+
+.frame-thumbnail:hover {
+  border-color: #888;
 }
 
 .retake-button-container {
-  margin-top: 10px; 
-  position: absolute; 
-  bottom: 10px; 
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  bottom: 5px; 
+ 
 }
 
 .retake-button {
   background-color: white;
-  border: 1px solid #A3A3A3;
+  border: 1px solid #a3a3a3;
   padding: 10px 20px;
-  color: #7E3493;
+  color: #7e3493;
   border-radius: 30px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   gap: 10px;
-  width: 150px;
+  width: 150px; 
 }
-
 
 
 .retake-button img {
   width: 20px;
 }
+
+/* print */
+@media print {
+  body * {
+    visibility: hidden; /* Hide everything */
+  }
+
+  .image-wrapper * ,.content * {
+    visibility: visible; /* Only show */
+  }
+
+  .photo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .uploaded-image {
+    width: 100%;
+    height: auto;
+    height: 100%;
+  }
+
+  .frame-overlay {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 1024px) { /* Target iPad and smaller screens */
+  .photo-frame-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .photo-container {
+    padding: 10px; 
+    width: 476px; 
+    height: 500px;
+  }
+
+  .frame-selection {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0; 
+    right: 0; 
+    position: relative; 
+    padding: 20px;
+  }
+
+  .frames {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; 
+  }
+}
+
 </style>
