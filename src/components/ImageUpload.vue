@@ -211,9 +211,9 @@ body {
 .photo-container {
   width: 676px; 
   height: 500px;
-  border: 2px solid #ffffff;
+  border: 3px solid #ffffff;
   border-radius: 30px;
-  background-color: #eaeaea;
+  background-color: #EAEAEA;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -326,36 +326,52 @@ body {
 }
 
 /* print */
+
 @media print {
   body * {
     visibility: hidden; /* Hide everything */
   }
 
-  .image-wrapper * ,.content * {
-    visibility: visible; /* Only show */
+  .content, .photo-container, .image-wrapper * {
+    visibility: visible; /* Only show the content */
   }
 
   .photo-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: auto; 
+    height: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0;
     padding: 0;
+    z-index: 100; 
+  }
+
+  .image-wrapper {
+    width: auto; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
   }
 
   .uploaded-image {
-    width: 100%;
-    height: auto;
-    height: 100%;
+    max-width: 100%; 
+    height: auto; 
+    max-height: 100vh; 
+    object-fit: cover; 
   }
 
   .frame-overlay {
     width: 100%;
-    height: auto;
+    height: 100%;
   }
+  
 }
+
 @media (max-width: 1024px) { /* Target iPad and smaller screens */
   .photo-frame-container {
     display: flex;
@@ -363,17 +379,22 @@ body {
     align-items: flex-start;
     gap: 20px;
   }
+  .center-container
+  {
+    margin-top: 120px;
+  }
 
   .photo-container {
     padding: 10px; 
     width: 476px; 
     height: 500px;
+    
   }
 
   .frame-selection {
     display: flex;
     flex-direction: column;
-    margin-top: 0; 
+    margin-top: 60px; 
     right: 0; 
     position: relative; 
     padding: 20px;
