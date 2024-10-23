@@ -103,9 +103,10 @@
   </div>
 
   <div class="button-container">
-    <button class="back-button" v-if="imageUrl" @click="resetPhoto">
-      Back
-    </button>
+   <button class="back-button" v-if="imageUrl" @click="goToPrevious">
+  Back
+</button>
+
 
     <button
       class="next-button"
@@ -204,6 +205,23 @@ const goToNext = () => {
 //print function
 const printImageWithFrame = () => {
   window.print();
+};
+
+const goToPrevious = () => {
+  if (progressStep.value === 2) {
+    // Back from frame selection (step 2) to image upload (step 1)
+    selectedFrame.value = null; 
+    showFrameSelection.value = false; 
+    progressStep.value = 1; // Go back to step 1
+  } else if (progressStep.value === 3) {
+    // Back from print step (step 3) to frame selection (step 2)
+    showPrintButton.value = false; 
+    showFrameSelection.value = true; 
+    progressStep.value = 2; 
+  } else {
+    // If on step 1 (image upload), reset and refresh the page
+    resetPhoto(); 
+  }
 };
 </script>
 <style>
