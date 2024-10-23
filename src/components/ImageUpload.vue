@@ -10,7 +10,7 @@
   <div class="center-container">
     <div class="photo-frame-container">
       <div class="photo-container" @click="openFileInput">
-        <div class="content" >
+        <div class="content">
           <input
             type="file"
             accept="image/*"
@@ -41,16 +41,18 @@
             <img :src="imageUrl" class="uploaded-image" alt="Uploaded Image" />
           </div>
           <!-- Button to retake the photo -->
-          <div v-if="imageUrl && !selectedFrame" class="retake-button-container">
+          <div v-if="imageUrl && !showFrameSelection && !showPrintButton" class="retake-button-container">
             <button class="retake-button" @click="resetPhoto">
-              <img src="@/assets/images/retake_camera.png" alt="Retake Icon"> Retake
+              <img src="@/assets/images/retake_camera.png" alt="Retake Icon" /> Retake
             </button>
           </div>
+          
+
         </div>
       </div>
 
       <!-- Frame selection -->
-      <div v-if="imageUrl" class="frame-selection">
+      <div v-if="showFrameSelection" class="frame-selection">
         <div class="frames">
           <img
             v-for="(frame, index) in frames"
@@ -62,8 +64,7 @@
           />
         </div>
       </div>
-     </div>
-     
+    </div>
   </div>
 
   <div class="button-container">
@@ -75,14 +76,16 @@
       class="next-button"
       :disabled="!imageUrl"
       @click="goToNext"
-      v-if="!selectedFrame"
     >
       Next
     </button>
 
+    
+
+
     <button
       class="print-button"
-      v-if="selectedFrame"
+      v-if="selectedFrame && showPrintButton"
       @click="printImageWithFrame"
     >
       Print
@@ -93,12 +96,14 @@
 <script setup>
 import { ref } from "vue";
 
-//using variables
+// Using variables
 const imageUrl = ref(null);
 const fileInput = ref(null);
 const selectedFrame = ref(null);
+const showFrameSelection = ref(false); 
+const showPrintButton = ref(false); 
 
-//frames
+// Frames
 import frame1 from "@/assets/images/frame1.png";
 import frame2 from "@/assets/images/frame2.png";
 import frame3 from "@/assets/images/frame3.png";
@@ -111,7 +116,7 @@ const frames = [frame1, frame2, frame3, frame4, frame5, frame6];
 
 // Function to open file input
 const openFileInput = () => {
-  fileInput.value.click(); // Open file input dialog
+  fileInput.value.click(); // Open file input 
 };
 
 // Function to handle uploaded photo
@@ -119,6 +124,9 @@ const handlePhoto = (event) => {
   const file = event.target.files[0];
   if (file) {
     imageUrl.value = URL.createObjectURL(file);
+    showFrameSelection.value = false; 
+    selectedFrame.value = null;
+    showPrintButton.value = false; 
   }
 };
 
@@ -126,6 +134,11 @@ const handlePhoto = (event) => {
 const resetPhoto = () => {
   imageUrl.value = null;
   selectedFrame.value = null;
+  showFrameSelection.value = false; 
+  showPrintButton.value = false; 
+
+   // Refresh the page
+  window.location.reload();
 };
 
 // Function to select a frame
@@ -134,16 +147,27 @@ const selectFrame = (frame) => {
   console.log("Selected frame:", selectedFrame.value);
 };
 
+
 // Function to proceed to the next step
 const goToNext = () => {
-  console.log("Next button clicked, proceed to the next step.");
+  if (!showFrameSelection.value && imageUrl.value) {
+    
+    showFrameSelection.value = true; 
+  } else if (showFrameSelection.value && selectedFrame.value) {
+    
+    showFrameSelection.value = false;
+    showPrintButton.value = true; 
+  }
 };
 
-// Function to print the image with frame
+
+//print function
 const printImageWithFrame = () => {
   window.print();
 };
 </script>
+
+
 
 <style>
 body {
