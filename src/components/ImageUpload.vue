@@ -141,12 +141,20 @@ const showPrintButton = ref(false);
 const progressStep = ref(1); 
 
 // Frames
-import frame1 from "@/assets/images/frame1.png";
-import frame2 from "@/assets/images/frame2.png";
-import frame3 from "@/assets/images/frame3.png";
-import frame4 from "@/assets/images/frame4.png";
-import frame5 from "@/assets/images/frame5.png";
-import frame6 from "@/assets/images/frame6.png";
+import frame1 from "@/assets/images/frame1.svg";
+import frame2 from "@/assets/images/frame2.svg";
+import frame3 from "@/assets/images/frame3.svg";
+import frame4 from "@/assets/images/frame4.svg";
+import frame5 from "@/assets/images/frame5.svg";
+import frame6 from "@/assets/images/frame6.svg";
+
+// import frame1 from "@/assets/images/frame1.png";
+// import frame2 from "@/assets/images/frame2.png";
+// import frame3 from "@/assets/images/frame3.png";
+// import frame4 from "@/assets/images/frame4.png";
+// import frame5 from "@/assets/images/frame5.png";
+// import frame6 from "@/assets/images/frame6.png";
+
 
 // List of frames
 const frames = [frame1, frame2, frame3, frame4, frame5, frame6];
