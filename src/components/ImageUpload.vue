@@ -1,11 +1,46 @@
 <template>
-  <div class="container nav">
-    <img
-      src="@/assets/images/logo.png"
-      alt="Logo"
-      class="logo"
-      style="width: 174px"
-    />
+  <div class="container nav mt-3">
+    <div class="logo-slider-container">
+      <img
+        src="@/assets/images/logo.png"
+        alt="Logo"
+        class="logo"
+        style="width: 174px"
+      />
+
+      <!-- Step Slider -->
+      <div class="step-slider">
+        <div class="step" :class="{ checked: progressStep >= 1 }">
+          <div class="icon-container">
+            <span v-if="progressStep >= 1" class="checkmark">&#10003;</span>
+            <span v-else class="circle"></span>
+          </div>
+          <p>Take a Photo</p>
+        </div>
+
+        <div class="line" :class="{ active: progressStep >= 1 }"></div>
+
+        <div class="step" :class="{ checked: progressStep >= 2 }">
+          <div class="icon-container">
+            <span v-if="progressStep >= 2" class="checkmark">&#10003;</span>
+            <span v-else class="circle"></span>
+          </div>
+          <p>Choose a Frame</p>
+        </div>
+
+        <div class="line" :class="{ active: progressStep >= 2 }"></div>
+
+        <div class="step" :class="{ checked: progressStep === 3 }">
+          <div class="icon-container">
+            <span v-if="progressStep === 3" class="checkmark">&#10003;</span>
+            <span v-else class="circle"></span>
+          </div>
+          <p>Print</p>
+        </div>
+
+        <div class="line" :class="{ active: progressStep >= 3 }"></div>
+      </div>
+    </div>
   </div>
   <div class="center-container">
     <div class="photo-frame-container">
@@ -102,6 +137,7 @@ const fileInput = ref(null);
 const selectedFrame = ref(null);
 const showFrameSelection = ref(false); 
 const showPrintButton = ref(false); 
+const progressStep = ref(1); 
 
 // Frames
 import frame1 from "@/assets/images/frame1.png";
@@ -158,6 +194,10 @@ const goToNext = () => {
     showFrameSelection.value = false;
     showPrintButton.value = true; 
   }
+
+   if (progressStep.value < 3) {
+    progressStep.value += 1;
+  }
 };
 
 
@@ -166,9 +206,6 @@ const printImageWithFrame = () => {
   window.print();
 };
 </script>
-
-
-
 <style>
 body {
   margin: 0;
@@ -428,6 +465,90 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px; 
   }
+  .step-slider {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  
+  margin-left: 4px !important;
+}
+.line
+{
+  width: 100px !important;
+}
+}
+</style>
+
+<style scoped>
+/* Step Slider */
+.logo-slider-container {
+  display: flex;
+  align-items: center; 
+  gap: 10px; 
+}
+
+.step-slider {
+  display: flex;
+  align-items: center; 
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%;
+  background: #ddd; 
+}
+.step-slider {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+  /* margin-left: 50px !important; */
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-container {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+
+p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+/* Step lines */
+.line {
+  width: 170px;
+  height: 4px;
+  background: #6B7280; 
+  flex: 1;
+  margin: 0 10px;
+}
+
+.line.active {
+  background-color: #7e3493; 
 }
 
 </style>
+
