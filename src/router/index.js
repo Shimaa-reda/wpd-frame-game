@@ -5,7 +5,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('../views/HomeView.vue'),
-    meta:{title:"Upload Image"}
+    meta:{title:"WPD Frame"}
   },
   // {
   //   path: '/questions',
