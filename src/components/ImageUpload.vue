@@ -251,8 +251,8 @@ body {
 }
 
 .button-container {
-  position: relative;
-  top: 80px;
+  position: fixed;
+  bottom: 1%;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -288,8 +288,8 @@ body {
 }
 
 .photo-container {
-  width: 576px; 
-  height: 864px;
+  width: 400px;
+  height: 400px;
   border: 3px solid #ffffff;
   border-radius: 30px;
   background-color: #EAEAEA;
@@ -317,8 +317,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: auto;
+  width: 400px;
+  height: 400px;
   position: relative;
 }
 
