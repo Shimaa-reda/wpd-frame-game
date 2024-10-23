@@ -75,12 +75,7 @@
             />
             <img :src="imageUrl" class="uploaded-image" alt="Uploaded Image" />
           </div>
-          <!-- Button to retake the photo -->
-          <div v-if="imageUrl && !showFrameSelection && !showPrintButton" class="retake-button-container">
-            <button class="retake-button" @click="resetPhoto">
-              <img src="@/assets/images/retake_camera.png" alt="Retake Icon" /> Retake
-            </button>
-          </div>
+          
           
 
         </div>
@@ -100,6 +95,12 @@
         </div>
       </div>
     </div>
+    <!-- Button to retake the photo -->
+          <div v-if="imageUrl && !showFrameSelection && !showPrintButton" class="retake-button-container">
+            <button class="retake-button" @click="resetPhoto">
+              <img src="@/assets/images/retake_camera.png" alt="Retake Icon" /> Retake
+            </button>
+          </div>
   </div>
 
   <div class="button-container">
@@ -414,12 +415,14 @@ body {
 
 @media print {
   body * {
-    visibility: hidden; /* Hide everything */
+    visibility: hidden; 
   }
 
-  .content, .photo-container, .image-wrapper * {
-    visibility: visible; /* Only show the content */
+  .image-wrapper *{
+    visibility: visible; 
+     overflow: hidden;
   }
+ 
 
   .photo-container {
     position: fixed; 
@@ -434,22 +437,8 @@ body {
     margin: 0;
     padding: 0;
     z-index: 100; 
+    
   }
-
-  .image-wrapper {
-    width: auto; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-  }
-
-  .uploaded-image {
-    max-width: 100%; 
-    height: auto; 
-    max-height: 100vh; 
-    object-fit: cover; 
-  }
-
   .frame-overlay {
     width: 100%;
     height: 100%;
