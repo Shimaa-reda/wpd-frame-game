@@ -502,8 +502,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px; 
-  height: 30px; 
+  width: 15px; 
+  height: 15px; 
   border-radius: 50%;
   background: #ddd; 
 }
@@ -521,14 +521,14 @@ body {
   align-items: center;
 }
 
-.icon-container {
+/* .icon-container {
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 5px;
-}
+} */
 
 
 p {
