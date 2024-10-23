@@ -296,8 +296,8 @@ body {
 }
 
 .photo-container {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 450px;
   border: 3px solid #ffffff;
   border-radius: 30px;
   background-color: #EAEAEA;
@@ -325,8 +325,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 450px;
   position: relative;
 }
 
