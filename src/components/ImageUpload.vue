@@ -288,8 +288,8 @@ body {
 }
 
 .photo-container {
-  width: 676px; 
-  height: 500px;
+  width: 576px; 
+  height: 864px;
   border: 3px solid #ffffff;
   border-radius: 30px;
   background-color: #EAEAEA;
@@ -323,10 +323,8 @@ body {
 }
 
 .uploaded-image {
-  width: 100%;
-  height: auto;
-  /* max-height: 100%; */
-  object-fit: cover;
+  width: auto;
+  height: 100%;
 }
 
 .frame-overlay {
