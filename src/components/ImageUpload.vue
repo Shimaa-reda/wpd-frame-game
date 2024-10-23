@@ -460,8 +460,8 @@ body {
 
   .photo-container {
     padding: 10px; 
-    width: 476px; 
-    height: 500px;
+    width: 300px;
+  height: 450px;
     
   }
 
