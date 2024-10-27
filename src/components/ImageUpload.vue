@@ -213,8 +213,6 @@ const goToNext = () => {
 
 //print function
 const printImageWithFrame = () => {
-  document.getElementsByTagName('body')[0].style.backgroundImage = "unset";
-  document.getElementById("photo-container").style.visibility = "visible";
   window.print();
 };
 
