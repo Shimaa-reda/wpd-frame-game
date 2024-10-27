@@ -125,7 +125,7 @@
       v-if="selectedFrame && showPrintButton"
       @click="printImageWithFrame()"
     >
-      Print
+      Save
     </button>
   </div>
 </template>
