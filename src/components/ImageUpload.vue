@@ -455,7 +455,7 @@ body {
   }
   .center-container
   {
-    margin-top: 120px;
+    margin-top: 60px;
   }
 
   .photo-container {
