@@ -44,7 +44,7 @@
   </div>
   <div class="center-container">
     <div class="photo-frame-container">
-      <div class="photo-container" @click="openFileInput">
+      <div class="photo-container" @click="openFileInput" id="photo-container">
         <div class="content">
           <input
             type="file"
@@ -123,7 +123,7 @@
     <button
       class="print-button"
       v-if="selectedFrame && showPrintButton"
-      @click="printImageWithFrame"
+      @click="printImageWithFrame()"
     >
       Print
     </button>
@@ -213,6 +213,8 @@ const goToNext = () => {
 
 //print function
 const printImageWithFrame = () => {
+  document.getElementsByTagName('body')[0].style.backgroundImage = "unset";
+  document.getElementById("photo-container").style.visibility = "visible";
   window.print();
 };
 
@@ -446,7 +448,7 @@ body {
   
 }
 
-@media (max-width: 1024px) { /* Target iPad and smaller screens */
+@media (max-width: 1400px) { /* Target iPad and smaller screens */
   .photo-frame-container {
     display: flex;
     justify-content: space-between; 
