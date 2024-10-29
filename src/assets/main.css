@@ -2,6 +2,10 @@
 body{
     height: 100vh !important;
 }
+.container.canvas{
+    display: none;
+    overflow: hidden;
+}
 
 @media print {
 
@@ -11,6 +15,12 @@ body{
         padding: 0 !important;
         overflow: hidden;
         background-image: unset !important;
+    }
+    .container:not(.canvas){
+        display: none;
+    }
+    .container.canvas{
+        display: block;
     }
   
   }

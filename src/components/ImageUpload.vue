@@ -1,4 +1,10 @@
 <template>
+  <div class="container canvas"> 
+    <canvas id="myCanvas" width="300" height="450"
+      style="border:1px solid #d3d3d3; border-radius: 45px; overflow: hidden;">
+      Your browser does not support the HTML canvas tag.
+    </canvas>
+  </div>
   <div class="container nav mt-3">
     <div class="logo-slider-container">
       <img
@@ -68,12 +74,13 @@
           <div v-else class="image-wrapper">
             <!-- Frame overlay -->
             <img
-              v-if="selectedFrame"
+              v-show="selectedFrame"
               :src="selectedFrame"
               class="frame-overlay"
               alt="Selected Frame"
+              id="frame-img"
             />
-            <img :src="imageUrl" class="uploaded-image" alt="Uploaded Image" />
+            <img style="border-radius: 45px;" :src="imageUrl" class="uploaded-image" alt="Uploaded Image" id="taken-img" />
           </div>
           
           
@@ -210,10 +217,49 @@ const goToNext = () => {
   }
 };
 
+const myCanvas = () => {
+  const c = document.getElementById("myCanvas");
+  const ctx = c.getContext("2d");
+  const frame = document.getElementById("frame-img");
+  const pp = document.getElementById("taken-img");
+
+  
+  ctx.drawImage(pp, 0, 0, 300, 450);
+  ctx.drawImage(frame, 0, 0, 300, 450);
+
+  // Get the canvas
+  var canvas = document.getElementById("myCanvas");
+  // Convert the canvas to a data URL (base64 encoded image)
+  const imageDataURL = canvas.toDataURL("image/png");
+
+  // Create an image element and set its source to the data URL
+  const img = new Image();
+  img.src = imageDataURL;
+
+  // Append the image to the body
+  document.body.appendChild(img);
+  img.style.borderRadius = "45px";
+  img.style.display = "none"; // Hide the link
+
+  // Create a download link and trigger the download
+  const link = document.createElement("a");
+  link.href = imageDataURL;
+  link.download = "canvas-image.png";
+  link.style.borderRadius = "45px";
+  link.style.display = "none"; // Hide the link
+
+  // Append the link to the body and click it programmatically
+  document.body.appendChild(link);
+  link.click();
+
+  // Remove the link after the download is triggered
+  document.body.removeChild(link);
+}
+
 
 //print function
 const printImageWithFrame = () => {
-  window.print();
+  myCanvas();
 };
 
 const goToPrevious = () => {
